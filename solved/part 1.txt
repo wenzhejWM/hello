@@ -1,0 +1,495 @@
+// two sum
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_set<int> myset;
+        for(int i=0; i<nums.size(); i++ )
+            myset.insert(nums[i]);
+        for (int i=0; i<nums.size();i++)
+            if (myset.find(target - nums[i]) != myset.end()){
+                vector<int> res(2);
+                res[0] = 
+            }
+    }
+};
+
+//--------------------
+// reverse integer 
+class Solution {
+public:
+    int reverse(int x) 
+    {
+        bool neg = (x < 0);
+        x = abs(x);
+        int revx = 0;
+        int resid;
+        while(x>0)
+        {
+            resid = x % 10;
+            x /= 10;
+            int temp = revx*10 + resid;
+            if (temp/10 != revx) return 0;
+            revx = temp;
+        }
+        if (neg) return (-revx);
+        return revx;
+        
+    }
+};
+
+//-------------------------
+class Solution {
+public:
+    bool isPalindrome(int x) 
+    {
+        if (x < 0) return false;
+        int n=0;
+        int y(x);
+        while(y)
+        {
+            y=y/10;
+            n++;
+        }
+        int first, last, temp;
+        while (x)
+        {
+            temp = pow(10,n-1);
+            first = x / temp;
+            
+            last = x % 10;
+            if (first != last) return false;
+            x = x % temp;
+            x = x / 10;
+            n -=2;
+        }
+        return true;
+        
+        
+    }
+};
+
+/*bool isPalindrome(int x) {
+        int sum = 0, target = x;
+        while (x > 0) {
+            sum = sum * 10 + x % 10;
+            x /= 10;
+        }
+        return sum == target;
+    }*/
+
+//--------------------------------
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int res = 0;
+        int curMax = height[0];
+        int curMaxInd = 0;
+        for(int i = 1; i < height.size(); i++){
+            int curArea = (i - curMaxInd) * min(height[i], curMax);
+            if (curArea > res) res = curArea;
+            if (height[i] > curMax){
+                curMax = height[i];
+                curMaxInd = i;
+            }
+        }
+        return res;
+    }
+};
+//------------------------------------
+class Solution {
+public:
+    int val(char ch)
+    {
+        switch (ch)
+        {
+            case 'I': return 1;
+            case 'V': return 5;
+            case 'X': return 10;
+            case 'L': return 50;
+            case 'C': return 100;
+            case 'D': return 500;
+            case 'M': return 1000;
+        }
+    }
+    int romanToInt(string s) 
+    {
+        int result = 0;
+        int vals[s.size()];
+        for(int i=0;i<s.size();i++)
+            vals[i] = val(s[i]);
+        int i;
+        for(i = 0; i<s.size()-1; ++i)
+        {
+            if (vals[i] >= vals[i+1]) result += vals[i];
+            else
+            {
+                result += vals[i+1] - vals[i];
+                ++i;
+            }
+        }
+        
+        if (i != s.size()) result += vals[i];
+        return result;
+    }
+};
+//--------------------------
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        vector<string> res;
+        if (digits.size() == 0) return res;
+        vector<string> corr{"abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        string oneSol;
+        letterComb_dfs(corr,digits,res,oneSol);
+        return res;
+    }
+    
+    void letterComb_dfs(const vector<string>& corr, const string& digits,
+    vector<string>& res, string& oneSol){
+        
+        int n = oneSol.size();
+        if (n == digits.size()){
+            res.push_back(oneSol);
+            return;
+        }
+        
+        int curDigit = int(digits[n] - '0');
+        string curStr = corr[curDigit - 2];
+        
+        for (int i=0; i < curStr.size(); i++){
+            oneSol.push_back(curStr[i]);
+            letterComb_dfs(corr,digits,res,oneSol);
+            oneSol.pop_back();
+        }
+        
+    }
+};
+
+
+// this solution is iterative and short
+/*
+vector<string> letterCombinations(string digits) {
+    vector<string> res;
+    string charmap[10] = {"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+    res.push_back("");
+    for (int i = 0; i < digits.size(); i++)
+    {
+        vector<string> tempres;
+        string chars = charmap[digits[i] - '0'];
+        for (int c = 0; c < chars.size();c++)
+            for (int j = 0; j < res.size();j++)
+                tempres.push_back(res[j]+chars[c]);
+        res = tempres;
+    }
+    return res;
+}
+*/
+//-------------------------------------
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void insert_ll(ListNode** head, ListNode* node){
+        ListNode* n(*head);
+        while(n->next){
+            n=n->next;
+        }
+        
+        n->next = node;
+    }
+
+
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        if (!l1) return l2;
+        if (!l2) return l1;
+        ListNode* newHead = nullptr;
+        ListNode* tail(newHead);
+        while (l1 && l2){
+            if (l1->val < l2->val){
+                if (!newHead) { newHead = new ListNode(l1->val); tail = newHead;} 
+                else{
+                    ListNode* temp = new ListNode(l1->val);
+                    tail->next = temp;
+                    tail
+                }
+                l1 = l1->next;
+            }
+            else{
+                if (!newHead) newHead = l2;
+                else{
+                    ListNode* temp = new ListNode(l2->val);
+                    insert_ll(&newHead, temp);
+                }
+                l2 = l2->next;
+            }
+        }
+        if (l1) newHead->next = l1;
+        if (l2) newHead->next = l2;
+        return newHead;
+    }
+};
+//------------------------
+class Solution {
+public:
+    
+    
+    void getPar(vector<string>& all, int left, int right, string s){
+        if (right + left == 0) { all.push_back(s); return;}
+        if (left == right) {
+            s.push_back('(');
+            getPar(all,left-1,right,s);
+        }
+        if (left <right){
+            string temp(s);
+            if (left > 0){
+            s.push_back('(');
+            getPar(all,left-1,right,s);
+            }
+            //restore
+            s = temp;
+            s.push_back(')');
+            getPar(all,left,right-1,s);
+        }
+    }
+
+    vector<string> generateParenthesis(int n) {
+        string s{};
+        vector<string> all;
+        getPar(all,n,n,s);
+        return all;
+    }
+};
+//----------------------------
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        if (!head) return head;
+        ListNode* goforward(head);
+        while (goforward){
+            ListNode* temp = head->next; // second node
+            goforward->next = goforward->next->next;// first node connect to third node
+            temp->next = goforward; // second to first
+        }
+        return head;
+    }
+};
+//--------------------------------
+
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) 
+    {
+        if (!nums.size()) return 0;
+        for(int i=0; i<nums.size()-1; ++i)
+        {
+            if (nums[i] == nums[i+1])
+            {
+                nums.erase(nums.begin() + i);
+                --i;
+            }
+        }
+        return nums.size();
+    }
+};
+
+//---------------------------------
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val)
+    {
+        for(int i=0; i<nums.size(); ++i)
+        {
+            if (nums[i] == val)
+            {
+                nums.erase(nums.begin() + i);
+                --i;
+            }
+        }
+        return nums.size();
+    }
+};
+//=================================
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        vector<int> res{-1,-1};
+        int lo = 0, hi = nums.size() - 1;
+        while(lo <= hi){
+            int mid = lo + (hi - lo)/2;
+            if (nums[mid] == target){
+                // expand to both sides and get range
+                int left(mid), right(mid);
+                while(left > 0 && nums[left - 1] == target) left--;
+                while(right < nums.size() - 1 && nums[right + 1] == target) right++;
+                res[0] = left; res[1] = right;
+                
+            }
+            if (nums[mid] < target) lo = mid + 1;
+            else hi = mid - 1;
+        }
+        return res;
+    }
+};
+//===========================
+class Solution {
+public:
+    vector<vector<int>> permute(vector<int>& nums) 
+    {
+        vector<vector<int>> res;
+        perm(nums,res,0);
+        return res;
+    }
+    
+    void perm(vector<int>& nums, vector<vector<int>>& res, int index)
+    {
+        if (index == nums.size()-1) res.push_back(nums);
+        
+        for(int i=index; i<nums.size(); ++i)
+        {
+            swap(nums,index,i);
+            perm(nums,res,index+1);
+            swap(nums,index,i);
+        }
+    }
+    
+    void swap(vector<int>& a,int i,int j)
+    {
+        int temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
+    }
+};
+//=====================================
+class Solution {
+public:
+    typedef vector<vector<string>> vvstr;
+    vector<vector<string>> solveNQueens(int n) {
+        vvstr allSol;
+        string oneLine(n,'.');
+        vector<string> oneSol(n, oneLine);
+        vector<int> oneDigitSol(n,-1);
+        solveNQueensHelper(n, 0, oneSol, oneDigitSol, allSol);
+        return allSol;
+    }
+    
+    void solveNQueensHelper(int n, int cur, vector<string>& oneSol, vector<int>& oneDigitSol, vvstr& allSol){
+        if (cur == n) { allSol.push_back(oneSol); return;}
+        for(int i = 0; i < n; i++){//try different position at cur row
+            
+            if (valid(oneSol, oneDigitSol, cur, i)){// check if it is valid to put queen at column i on cur row
+                oneSol[cur][i] = 'Q'; oneDigitSol[cur] = i;
+                solveNQueensHelper(n, cur+1, oneSol,oneDigitSol, allSol);
+                oneSol[cur][i] = '.'; oneDigitSol[cur] = -1;
+            } 
+            
+        }
+    }
+    
+    bool valid(vector<string>& oneSol, vector<int>& oneDigitSol, int cur, int qPos){
+        for(int i=0;i<cur;i++){
+            //first, not on the same column
+            if (qPos == oneDigitSol[i]) return false;
+            // diagonal
+            if (abs(cur - i) == abs(qPos - oneDigitSol[i])) return false;
+        }
+        return true;
+    }
+    
+};
+//===============================
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int maxs = nums[0];
+        vector<int> res(nums.size());
+        res[0] = nums[0];
+        for(int i=1; i<nums.size(); ++i){
+            res[i] = (res[i-1]>0)?(res[i-1]+nums[i]):nums[i];
+            
+            if (res[i]>maxs) maxs=res[i];
+        }
+        return maxs;
+    }
+};
+//====================
+// my own solution, linear time, good enough
+// beats 40% cpp
+/*
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int n = nums.size();
+        if (!n) return true;
+        vector<bool> reachable(n,false); // extra space
+        reachable[0] = true;
+        int curMax = nums[0]; // max jump from index i-1
+        for(int i =1;i<n;i++ ){
+            if (curMax){
+                reachable[i] = true;
+                if (curMax >= n-i) return true;
+            }
+            else return false;
+            // update curMax
+            curMax--;
+            if (curMax < nums[i]) curMax = nums[i];
+        }
+        return reachable[n-1];
+    }
+};
+*/
+
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int maxReach = 0;
+        int n = nums.size();
+        for (int i=0;i<n && i<= maxReach;i++){
+            maxReach = max(nums[i] + i, maxReach);
+            if (maxReach >= n - 1) return true;
+        }
+        return false;
+    }
+};
+
+//===================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
